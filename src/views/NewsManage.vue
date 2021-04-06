@@ -43,7 +43,7 @@
                             width="200">
                         <template slot-scope="scope">
                             <el-button @click="check(scope.row)" type="text" size="small">查看详情</el-button>
-                            <el-button @click="deleteBook(scope.row)" type="text" size="small">删除</el-button>
+                            <el-button @click="deleteArticle(scope.row)" type="text" size="small">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -118,29 +118,14 @@
 </template>
 
 <script>
-    const serverUrl = 'http://127.0.0.1:7777'
+    const serverUrl = 'http://127.0.0.1:7777/api'
     export default {
         methods: {
-            deleteBook(row) {
-                const _this = this
-                axios.delete(serverUrl + 'http://localhost:8181/book/deleteById/' + row.id).then(function (resp) {
-                    _this.$alert('《' + row.name + '》删除成功！', '消息', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            window.location.reload()
-                        }
-                    })
-                })
-            },
-            check(row) {
-                this.result = row.result,
-                    this.content = row.content,
-                    this.checkDialogVisible = true
-            },
+
             getData() {
                 console.log('submit!');
                 let that = this
-                axios.get(serverUrl + '/api/articles', {
+                axios.get(serverUrl + '/articles', {
                     params: {
                         content: that.formInline.content,
                         page: that.page
@@ -155,6 +140,12 @@
                         console.log(error);
                     });
             },
+
+            check(row) {
+                this.result = row.result,
+                    this.content = row.content,
+                    this.checkDialogVisible = true
+            },
             openDialog() {
                 this.result = '',
                 this.form.content= '',
@@ -162,7 +153,7 @@
             },
             addContent() {
                 let that = this
-                axios.post(serverUrl + '/api/addArticle', {
+                axios.post(serverUrl + '/addArticle', {
                     data: {
                         content: that.form.content,
                         result: that.result
@@ -181,7 +172,7 @@
             handle() {
                 let that = this
                 that.loading = true
-                axios.post(serverUrl + '/api/handleArticle', {
+                axios.post(serverUrl + '/handleArticle', {
                     data: {
                         content: that.form.content
                     }
@@ -200,6 +191,20 @@
                         that.loading = false
                     });
 
+            },
+
+            deleteArticle(row) {
+                let that = this
+                axios.post(serverUrl + '/deleteArticle', {
+                    data: {
+                        id: row.id
+                    }
+                }).then(function (resp) {
+                    that.$alert('删除成功！', '消息', {
+                        confirmButtonText: '确定',
+                    })
+                    that.getData()
+                })
             },
 
             /*
