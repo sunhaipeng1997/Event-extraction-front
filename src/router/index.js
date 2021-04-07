@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import NewsManage from '../views/NewsManage'
+import EventExtraction from '../views/EventExtraction'
 import Index from '../views/Index'
 
 Vue.use(VueRouter)
@@ -8,15 +8,21 @@ Vue.use(VueRouter)
 const routes = [
   {
     path:"/",
-    name:"事件抽取",
+    name:"菜单",
     component:Index,
     show:true,
-    redirect:"/NewsManage",
+    meta:{
+      name:"首页"
+    },
+    redirect:"/EventExtraction",
     children:[
       {
-        path:"/NewsManage",
-        name:"新闻列表",
-        component:NewsManage
+        path:"/EventExtraction",
+        name:"事件抽取",
+        meta:{
+          name:"事件抽取"
+        },
+        component:EventExtraction
       }
     ]
   }
