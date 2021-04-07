@@ -77,13 +77,18 @@
                 </el-col>
                 <el-col :span="12">
                     <el-card class="box-card">
-                        <div><b>事件:</b>{{result.event}}</div>
-                        <div><b>伤亡损失: </b> {{result.casualties}}</div>
-                        <div><b>救援组织: </b> {{result.organization}}</div>
-                        <div><b>火灾原因: </b> {{result.reason}}</div>
-                        <div><b>火灾地点: </b> {{result.location}}</div>
-                        <div><b>火灾时间: </b> {{result.time}}</div>
-                        <div><b>触发词:   </b>  {{result.word}}</div>
+
+                        <li v-for="(value, key, index) in result">
+                                <span><b>{{key}}:</b>{{ value }}</span>
+
+                        </li>
+<!--                        <div><b>事件:</b>{{result.event}}</div>-->
+<!--                        <div><b>伤亡损失: </b> {{result.casualties}}</div>-->
+<!--                        <div><b>救援组织: </b> {{result.organization}}</div>-->
+<!--                        <div><b>火灾原因: </b> {{result.reason}}</div>-->
+<!--                        <div><b>火灾地点: </b> {{result.location}}</div>-->
+<!--                        <div><b>火灾时间: </b> {{result.time}}</div>-->
+<!--                        <div><b>触发词:   </b>  {{result.word}}</div>-->
 
                     </el-card>
                 </el-col>
@@ -165,6 +170,7 @@
                     }
                 })
                     .then(function (response) {
+                        that.dialogFormVisible = false
                         console.log(response);
                     })
                     .catch(function (error) {
